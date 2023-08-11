@@ -25,7 +25,7 @@ fi
 volume="luks-$luksUUID"
 
 if [[ $1 = off ]] ; then
-	if [[ "$device" != "$(findmnt -no SOURCE "$directory")" ]] ; then
+	if [[ "/dev/mapper/$volume" != "$(findmnt -no SOURCE "$directory")" ]] ; then
 		echo "ERROR: $device not mounted at $directory" >&2
 		exit 1
 	fi
