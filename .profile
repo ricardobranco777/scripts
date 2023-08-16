@@ -21,10 +21,9 @@ HISTSIZE=-1
 HISTFILESIZE=-1
 
 export GOROOT=/usr/local/go
-PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/go
 
-for dir in $HOME/.local/bin $GOPATH/bin $HOME/bin ; do
+for dir in $GOROOT/bin $HOME/.local/bin $GOPATH/bin $HOME/bin ; do
 	if [[ ! $PATH == *$dir:* && -d $dir ]] ; then
    		PATH="$dir:$PATH"
 	fi
