@@ -22,9 +22,9 @@ if [[ $ACTION = umount ]] ; then
 fi
 
 if [[ $ACTION = mount ]] ; then
-	dirs=($(findmnt --pseudo --list -no TARGET | grep -Ev -e '^/$' -e '^/(run|tmp|var)'))
+	mapfile -t dirs < <(findmnt --pseudo --list -no TARGET | grep -Ev -e '^/$' -e '^/(run|tmp|var)')
 else
-	dirs=($(findmnt --pseudo --list -no TARGET | grep "^$TARGET" | sort -r))
+	mapfile -t dirs < <(findmnt --pseudo --list -no TARGET | grep "^$TARGET" | sort -r)
 fi
 
 cleanup() {
