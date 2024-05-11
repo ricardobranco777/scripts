@@ -27,16 +27,21 @@ def do_dir(directory: str, dry_run: bool = False, quiet: bool = False) -> None:
         files.sort()
         for file in files:
             file = os.path.join(root, file)
+            if not os.path.isfile(file):
+                continue
             file_hash = hash_file(file)
             if file_hash in hashes:
+                dest_file = hashes[file_hash]
+                if os.path.samefile(file, dest_file):
+                    continue
                 if not dry_run:
                     try:
                         os.unlink(file)
-                        os.link(hashes[file_hash], file)
+                        os.link(dest_file, file)
                     except OSError as exc:
                         sys.exit(str(exc))
                 if not quiet:
-                    print(f"'{file}' => '{hashes[file_hash]}'")
+                    print(f"'{file}' => '{dest_file}'")
             else:
                 hashes[file_hash] = file
 
