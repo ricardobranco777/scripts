@@ -9,7 +9,7 @@ import os
 import sys
 
 
-def hash_file(file: str, algorithm: str = "sha512") -> str:
+def hash_file(file: str, algorithm: str = "blake2b") -> str:
     """
     Hash file
     """
