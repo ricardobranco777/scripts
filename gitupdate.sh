@@ -8,7 +8,7 @@ update () {
 	if git remote | grep -qFx "$UPSTREAM" ; then
 		git fetch "$UPSTREAM" && git merge "$UPSTREAM/$branch"
 	else
-		git pull
+		git pull --rebase=true
 	fi
 }
 
