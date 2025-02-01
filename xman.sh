@@ -32,6 +32,12 @@ case "$OS" in
 		SECTION="${SECTION:-ANY}"
 		URL="https://leaf.dragonflybsd.org/cgi/web-man?command=$PAGE&section=$SECTION"
 		;;
+	I|Illumos)
+		URL="https://illumos.org/man/$SECTION/$PAGE"
+		;;
+	L|Linux)
+		URL="https://man7.org/linux/man-pages/man$SECTION/gperl.$SECTION.html"
+		;;
 	*)
 		echo >&2 "ERROR: Unknown OS: $OS"
 		exit 1
