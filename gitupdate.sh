@@ -6,7 +6,7 @@ update () {
 	branch=$(git branch --show-current)
 
 	if git remote | grep -qFx "$UPSTREAM" ; then
-		git fetch "$UPSTREAM" && git merge "$UPSTREAM/$branch"
+		git fetch "$UPSTREAM" "$branch" && git merge "$UPSTREAM/$branch"
 	else
 		git pull --rebase=true
 	fi
