@@ -12,7 +12,7 @@ LOCAL="$HOME/.local/share/man/"
 
 # Aliases in https://man.freebsd.org/cgi/man.cgi/help.html
 #SYSTEMS="dragonfly freebsd hpux irix linux macos netbsd openbsd osf1 solaris sunos true64 ultrix v7"
-SYSTEMS="freebsd netbsd openbsd dragonfly solaris"
+SYSTEMS="freebsd netbsd openbsd dragonfly solaris macos"
 
 mkdir -p "$LOCAL"
 cd "$LOCAL"
@@ -26,7 +26,7 @@ for system in $SYSTEMS ; do
 	fi
 	url="https://man.freebsd.org/cgi/man.cgi?manpath=$system&apropos=2"
 	strip=1
-	case "$system" in freebsd*) strip=2 ;; esac
+	case "$system" in freebsd*|macos*) strip=2 ;; esac
 	echo "Downloading $system"
 	curl -s "$url" | tar -zxf- -C "$system" --strip-components "$strip"
 	find "$system" -type d -exec chmod u+w {} +
