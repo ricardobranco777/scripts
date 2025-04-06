@@ -2,7 +2,8 @@
 #
 # Use this script to install other OS manpages on your system
 #
-# Run as non-root and run man(1) with `-m $system` on systems with GNU man-db
+# With GNU man-db use `man -m $system ...`
+# With BSD mandoc use `man -m ~/.local/share/man/$system ...`
 #
 # You may optionally run a deduplicator utility and gzip(1)
 
