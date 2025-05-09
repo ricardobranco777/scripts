@@ -2,13 +2,17 @@
 
 UPSTREAM="${UPSTREAM:-upstream}"
 
-update () {
+retry() {
+	"$@" || "$@"
+}
+
+update() {
 	branch=$(git branch --show-current)
 
 	if git remote | grep -qFx "$UPSTREAM" ; then
-		git fetch "$UPSTREAM" "$branch" && git merge "$UPSTREAM/$branch"
+		retry git pull "$UPSTREAM" "$branch" --rebase
 	else
-		git pull --rebase=true
+		retry git pull --rebase=true
 	fi
 }
 
