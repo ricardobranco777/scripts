@@ -3,7 +3,7 @@
 # Wrapper around FreeBSD pkg-upgrade(8) to create a ZFS Boot Environment
 # and mount /var/cache/pkg in tmpfs before pkg upgrade
 
-size=$(pkg upgrade -Fn | awk '/to be downloaded/ { printf "%s%c", $1 + 1, substr($2, 0, 1) }')
+size=$(pkg upgrade -Fn | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
 
 if [ -z "$size" ] ; then
 	exit 0
