@@ -13,7 +13,7 @@ LOCAL="$HOME/.local/share/man/"
 
 # Aliases in https://man.freebsd.org/cgi/man.cgi/help.html
 #SYSTEMS="dragonfly freebsd hpux irix linux macos netbsd openbsd osf1 solaris sunos true64 ultrix v7"
-SYSTEMS="freebsd netbsd openbsd dragonfly solaris macos"
+SYSTEMS="${SYSTEMS:-freebsd netbsd openbsd dragonfly solaris macos}"
 
 mkdir -p "$LOCAL"
 cd "$LOCAL"
@@ -32,4 +32,6 @@ for system in $SYSTEMS ; do
 	curl -s "$url" | tar -zxf- -C "$system" --strip-components "$strip"
 	find "$system" -type d -exec chmod u+w {} +
 	find "$system" -mindepth 1 -maxdepth 1 -type d ! -name man\* -exec rm -rf {} +
+	# Remove other languages
+	(cd "$system" && rm -rf ?? *ISO* *UTF* *KOI8*)
 done
