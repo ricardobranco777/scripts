@@ -43,8 +43,4 @@ if [ "$rootfs" = "zfs" ] ; then
 fi
 
 pkg $opts "$cmd" "$@"
-status=$?
-
-cleanup
-
-exit "$status"
+cleanup $?

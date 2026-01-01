@@ -37,8 +37,4 @@ cleanup () {
 trap cleanup HUP QUIT INT
 
 pkgin $opts "$cmd" "$@"
-status=$?
-
-cleanup 0
-
-exit "$status"
+cleanup $?
