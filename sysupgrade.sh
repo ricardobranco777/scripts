@@ -1,8 +1,13 @@
 #!/bin/sh
 #
-# Check if new sets are available for NetBSD by comparing the SHA512
+# Wrapper for NetBSD sysupgrade(8) that adds a check command
+# to check if new sets are available by comparing the SHA512
 
 set -e
+
+if [ "$1" != "check" ] ; then
+	exec sysupgrade "$@"
+fi
 
 . /usr/pkg/etc/sysupgrade.conf
 
