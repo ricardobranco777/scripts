@@ -31,6 +31,7 @@ mount -v -t tmpfs -o size="$size" tmpfs /var/cache/pkg || exit 1
 
 cleanup () {
 	umount -v /var/cache/pkg
+	exit 0
 }
 
 trap cleanup HUP QUIT INT
@@ -46,4 +47,4 @@ status=$?
 
 cleanup
 
-exit $status
+exit "$status"
