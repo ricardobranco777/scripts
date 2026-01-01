@@ -24,8 +24,6 @@ case "$cmd" in
 		exec pkg $opts "$cmd" "$@" ;;
 esac
 
-echo "$cmd" "$opts" -- "$cmd" "$@"
-
 size=$(pkg $opts "$cmd" -Fn "$@" | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
 [ -z "$size" ] && exit 0
 
