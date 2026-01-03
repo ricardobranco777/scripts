@@ -44,6 +44,7 @@ while [ $# -gt 0 ] ; do
 		shift ;;
 	*)
 		cmd="$1"
+		shift
 		break ;;
 	esac
 done
@@ -51,7 +52,6 @@ done
 case "$cmd" in
 	# Note: It makes no sense to run it on fetch as the mounted tmpfs will be gone
 	auto)
-		shift
 		RELEASEDIR="${1:-$RELEASEDIR}" ;;
 	*)
 		exec sysupgrade $opts "$cmd" "$@" ;;
