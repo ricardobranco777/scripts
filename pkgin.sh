@@ -29,7 +29,7 @@ size=$(pkgin -dn $opts "$cmd" "$@" | awk '/^[0-9]+[KMG] to download$/ { printf "
 
 mount_tmpfs -s "$size" tmpfs /var/db/pkgin/cache || exit 1
 
-cleanup () {
+cleanup() {
 	umount -v /var/db/pkgin/cache
 	exit "${1:-1}"
 }

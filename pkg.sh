@@ -29,9 +29,9 @@ size=$(pkg $opts "$cmd" -Fn "$@" | awk '/to be downloaded/ { printf "%s%c", $1 +
 
 mount -v -t tmpfs -o size="$size" tmpfs /var/cache/pkg || exit 1
 
-cleanup () {
+cleanup() {
 	umount -v /var/cache/pkg
-	exit 0
+	exit "${1:-1}"
 }
 
 trap cleanup HUP QUIT INT

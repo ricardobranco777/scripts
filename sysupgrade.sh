@@ -13,7 +13,7 @@ if [ -z "$RELEASEDIR" ] ; then
 	exit 1
 fi
 
-check () {
+check() {
 	# Get existing sets as a regular expression to be used to filter the hash list
 	# Otherwise sha512(1) will print ERROR on missing files
 	sets=$(ls /etc/mtree | sed -n 's/^set\.//p' | xargs echo | sed 's/ /|/g')
@@ -62,7 +62,7 @@ size=$(ftp -o - "$RELEASEDIR/binary/sets/" | grep -Eo '[0-9]+kB' | awk '{ n += $
 
 mount_tmpfs -s "${size}k" tmpfs /var/cache/sysupgrade || exit 1
 
-cleanup () {
+cleanup() {
 	umount -v /var/cache/sysupgrade
 	exit "${1:-1}"
 }
