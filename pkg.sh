@@ -24,7 +24,7 @@ case "$cmd" in
 		exec pkg $opts "$cmd" "$@" ;;
 esac
 
-size=$(pkg $opts "$cmd" -Fn "$@" | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
+size=$(pkg $opts "$cmd" -Fn "$@" | tee /dev/tty | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
 [ -z "$size" ] && exit 0
 
 mount -v -t tmpfs -o size="$size" tmpfs /var/cache/pkg || exit 1
@@ -38,9 +38,13 @@ trap cleanup HUP QUIT INT
 
 rootfs=$(mount -p | awk '$2 == "/" { print $3 }')
 
+be="default-$(date +'%Y-%m-%d_%H%M%S')"
 if [ "$rootfs" = "zfs" ] ; then
-	bectl create -r default@"$(date +'%Y-%m-%d_%H%M%S')"
+	bectl create "$be"
 fi
 
 pkg $opts "$cmd" "$@"
+if [ "$rootfs" = "zfs" ] ; then
+	bectl activate "$be"
+fi
 cleanup $?
