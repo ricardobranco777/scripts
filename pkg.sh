@@ -27,24 +27,20 @@ esac
 size=$(pkg $opts "$cmd" -Fn "$@" | tee /dev/tty | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
 [ -z "$size" ] && exit 0
 
-mount -v -t tmpfs -o size="$size" tmpfs /var/cache/pkg || exit 1
-
 cleanup() {
-	umount -v /var/cache/pkg
+	umount -v /mnt/var/cache/pkg
 	exit "${1:-1}"
 }
 
 trap cleanup HUP QUIT INT
 
-rootfs=$(mount -p | awk '$2 == "/" { print $3 }')
-
 be="default-$(date +'%Y-%m-%d_%H%M%S')"
-if [ "$rootfs" = "zfs" ] ; then
-	bectl create "$be"
-fi
+bectl create "$be"
+bectl mount "$be" /mnt
 
-pkg $opts "$cmd" "$@"
-if [ "$rootfs" = "zfs" ] ; then
-	bectl activate "$be"
-fi
+mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || exit 1
+
+pkg-static -c /mnt $opts "$cmd" "$@"
+bectl activate "$be"
+
 cleanup $?
