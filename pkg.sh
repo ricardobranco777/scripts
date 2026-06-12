@@ -29,7 +29,6 @@ size=$(pkg $opts "$cmd" -Fn "$@" | tee /dev/tty | awk '/to be downloaded/ { prin
 
 cleanup() {
 	umount -v /mnt/var/cache/pkg
-	exit "${1:-1}"
 }
 
 trap cleanup HUP QUIT INT
@@ -42,6 +41,5 @@ mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || exit 1
 
 pkg-static -c /mnt $opts "$cmd" "$@"
 bectl activate "$be"
+umount -v /mnt/var/cache/pkg
 bectl unmount "$be"
-
-cleanup $?
