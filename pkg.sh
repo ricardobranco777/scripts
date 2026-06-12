@@ -42,5 +42,6 @@ mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || exit 1
 
 pkg-static -c /mnt $opts "$cmd" "$@"
 bectl activate "$be"
+bectl unmount "$be"
 
 cleanup $?
