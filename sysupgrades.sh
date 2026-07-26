@@ -31,7 +31,8 @@ URL="$MIRROR/snapshots/$ARCH"
 cd "$tmpdir"
 wget2 "$URL/SHA256" "$URL/SHA256.sig"
 
-SETS=$(sed -n -e 's/^SHA256 (\(.*\)) .*/\1/' -e '/^bsd/p;/\.tgz$/p' "$tmpdir/SHA256")
+SETS=$(sed -n -e 's/^SHA256 (\(.*\)) .*/\1/' \
+    -e '/^BUILDINFO$/p;/^INSTALL\./p;/^bsd/p;/\.tgz$/p' "$tmpdir/SHA256")
 
 urls=""
 for set in $SETS; do
