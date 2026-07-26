@@ -41,6 +41,6 @@ done
 
 wget2 $urls
 
-sysupgrade -n "$@" "$tmpdir"
+sysupgrade -nks "$@" "$tmpdir"
 
 cleanup $?
