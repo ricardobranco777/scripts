@@ -27,19 +27,24 @@ esac
 size=$(pkg $opts "$cmd" -Fn "$@" | tee /dev/tty | awk '/to be downloaded/ { printf "%s%c", $1 + 10, substr($2, 0, 1) }')
 [ -z "$size" ] && exit 0
 
+be="default-$(date +'%Y-%m-%d_%H%M%S')"
 cleanup() {
 	umount -v /mnt/var/cache/pkg
+	bectl unmount "$be"
+	if [ ! -z "$1" ]; then
+		bectl destroy "$be"
+	fi
+	exit "${1:-1}"
 }
 
 trap cleanup HUP QUIT INT
 
-be="default-$(date +'%Y-%m-%d_%H%M%S')"
 bectl create "$be"
 bectl mount "$be" /mnt
 
-mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || exit 1
+mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || cleanup 1
 
-pkg-static -c /mnt $opts "$cmd" "$@"
+pkg -c /mnt $opts "$cmd" "$@" || cleanup 1
+#pkg-static -c /mnt $opts "$cmd" "$@" || cleanup 1
 bectl activate "$be"
-umount -v /mnt/var/cache/pkg
-bectl unmount "$be"
+cleanup
