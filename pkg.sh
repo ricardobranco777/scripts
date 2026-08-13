@@ -39,6 +39,8 @@ cleanup() {
 
 trap cleanup HUP QUIT INT
 
+IGNORE_OSVERSION=yes pkg upgrade pkg
+
 bectl create "$be"
 bectl mount "$be" /mnt
 
