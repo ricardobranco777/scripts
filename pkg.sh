@@ -46,7 +46,7 @@ bectl mount "$be" /mnt
 
 mount -v -t tmpfs -o size="$size" tmpfs /mnt/var/cache/pkg || cleanup 1
 
-pkg -c /mnt $opts "$cmd" "$@" || cleanup 1
-#pkg-static -c /mnt $opts "$cmd" "$@" || cleanup 1
+IGNORE_OSVERSION=yes pkg -c /mnt $opts "$cmd" "$@" || cleanup 1
+#IGNORE_OSVERSION=yes pkg-static -c /mnt $opts "$cmd" "$@" || cleanup 1
 bectl activate "$be"
 cleanup
